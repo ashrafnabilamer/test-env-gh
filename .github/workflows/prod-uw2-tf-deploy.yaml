@@ -15,6 +15,10 @@ permissions:
   id-token: write  # Grants permission to generate a token
   contents: read   # Grants the workflow read-only access to repository contents
 
+# 🧭 This ensures only one run at a time for this env/region on main
+concurrency:
+  group: terraform-prod-us-west-2
+  cancel-in-progress: false
 
 jobs:
   plan:
