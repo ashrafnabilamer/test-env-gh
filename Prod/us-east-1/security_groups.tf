@@ -16,6 +16,14 @@ module "vote_service_sg" {
       cidr_blocks = "10.10.0.0/16"
     },
     {
+      from_port   = 5056
+      to_port     = 5058
+      protocol    = "tcp"
+      description = "Custom Ports"
+      cidr_blocks = "10.10.0.0/16"
+    }
+    ,
+    {
       rule        = "postgresql-tcp"
       cidr_blocks = "0.0.0.0/0"
     },
