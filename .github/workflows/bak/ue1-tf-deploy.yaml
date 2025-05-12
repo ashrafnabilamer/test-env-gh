@@ -1,0 +1,48 @@
+name: "UE1-TF-Deploy"
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - terraform/us-east-1/**
+  pull_request:
+    branches:
+      - main
+    paths:
+      - terraform/us-east-1/**
+
+permissions:
+  id-token: write  # Grants permission to generate a token
+  contents: read   # Grants the workflow read-only access to repository contents
+
+jobs:
+  terraform:
+    name: "Terraform"
+    runs-on: ubuntu-latest
+    env:
+      tf_actions_working_dir: './terraform/us-east-1'
+    defaults:
+      run:
+        working-directory: ${{ env.tf_actions_working_dir }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+      - name: Setup Terraform
+        uses: hashicorp/setup-terraform@v3
+        with:
+          terraform_version: 1.11.4
+      - name: 🏗 Configure AWS Credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          role-to-assume: ${{ secrets.IAM_ROLE }}
+          aws-region: us-east-1
+      - name: Terraform Init
+        id: init
+        run: terraform init
+      - name: Terraform Plan
+        id: plan
+        run: terraform plan -out=tfplan
+      - name: Terraform Apply
+        if: github.ref == 'refs/heads/main' && github.event_name == 'push'
+        run: terraform apply -auto-approve tfplan
+        
