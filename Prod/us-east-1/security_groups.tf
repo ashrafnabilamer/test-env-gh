@@ -12,7 +12,7 @@ module "vote_service_sg" {
       from_port   = 8080
       to_port     = 8099
       protocol    = "tcp"
-      description = "User-service ports"
+      description = "User-service ports range"
       cidr_blocks = "10.10.0.0/16"
     },
     {
