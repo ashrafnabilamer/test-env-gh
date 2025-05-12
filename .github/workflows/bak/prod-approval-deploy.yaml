@@ -116,7 +116,9 @@ jobs:
       with:
         name: tfplan
         path: ${{ env.tf_actions_working_dir }}
+
     - name: Terraform Init 
       run: terraform init
+
     - name: Terraform Apply
       run: terraform apply -auto-approve tfplan
