@@ -34,5 +34,12 @@ module "vote_service_sg" {
       description = "User-service ports range"
       cidr_blocks = "10.10.0.0/16"
     },
+    {
+      from_port   = 5088
+      to_port     = 5099
+      protocol    = "tcp"
+      description = "User-service ports range 2"
+      cidr_blocks = "10.10.0.0/16"
+    },
   ]
 }
