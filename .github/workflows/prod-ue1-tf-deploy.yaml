@@ -6,6 +6,7 @@ on:
     paths:
       - Prod/us-east-1/**
   pull_request:
+    types: [opened, synchronize]
     branches:
       - main
     paths:
