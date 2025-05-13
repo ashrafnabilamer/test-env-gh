@@ -4,7 +4,7 @@ module "vote_service_sg" {
   name        = "user-service"
   description = "Security group for user-service with custom ports open within VPC, and PostgreSQL publicly open"
   vpc_id      = "vpc-0b2f66cbc6d240601"
-
+  
   ingress_cidr_blocks      = ["10.10.0.0/16"]
   ingress_rules            = ["https-443-tcp"]
   ingress_with_cidr_blocks = [
@@ -26,6 +26,13 @@ module "vote_service_sg" {
     {
       rule        = "postgresql-tcp"
       cidr_blocks = "0.0.0.0/0"
+    },
+    {
+      from_port   = 5066
+      to_port     = 5077
+      protocol    = "tcp"
+      description = "User-service ports range"
+      cidr_blocks = "10.10.0.0/16"
     },
   ]
 }
